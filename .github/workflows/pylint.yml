@@ -4,7 +4,8 @@ on: [push]
 
 jobs:
   build:
-    runs-on: docker.pkg.github.com/bclipp/example_docker_lambda/image:latest
+    runs-on: ubuntu-latest
+    container: docker.pkg.github.com/bclipp/example_docker_lambda/image:latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
