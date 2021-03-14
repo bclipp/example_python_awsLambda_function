@@ -28,7 +28,7 @@ jobs:
         mypy .
 
     - name: Build Zip & deploy Zip
-        run: |
+      run: |
         cd  /srv/awsLambdaEnv
         pyenv activate awsLambdaEnv
         mkdir lambda_deployment
