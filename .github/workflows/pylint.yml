@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: docker.pkg.github.com/bclipp/example_docker_lambda/image:latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
@@ -14,8 +14,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install pylint  mypy
+        pyenv virtualenv 3.9.2 awsLambdaEnv
+        pipenv install pylint  mypy
 
     - name: Lint with pylint
       run: |
@@ -26,5 +26,21 @@ jobs:
       run: |
         # stop the build if pylint is 10 for everything
         mypy .
+
+    - name: Build Zip & deploy Zip
+        runs-on:
+        run: |
+        cd  /srv/awsLambdaEnv
+        pyenv activate awsLambdaEnv
+        mkdir lambda_deployment
+        cp -r __init__.py lambda_function.py  lambda_deployment
+        cd lambda_deployment
+        pip3 install -t ./package -r pandas
+        cd package
+        zip -r9 ../../lambda_function.zip .
+        cd ..
+        rm -rf package/
+        zip -gr ../lambda_function.zip *
+
     
 
