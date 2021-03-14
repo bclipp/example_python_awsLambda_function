@@ -28,7 +28,6 @@ jobs:
         mypy .
 
     - name: Build Zip & deploy Zip
-        runs-on:
         run: |
         cd  /srv/awsLambdaEnv
         pyenv activate awsLambdaEnv
