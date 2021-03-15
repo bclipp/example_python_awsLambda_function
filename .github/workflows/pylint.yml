@@ -18,6 +18,7 @@ jobs:
         export PATH="/root/.pyenv/bin:$PATH" 
         eval "$(pyenv init -)" 
         eval "$(pyenv virtualenv-init -)"
+        pyenv install 3.9.2
         pyenv virtualenv 3.9.2 awsLambdaEnv
         pipenv install pylint  mypy
 
