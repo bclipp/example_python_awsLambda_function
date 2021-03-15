@@ -24,6 +24,7 @@ jobs:
         cd  /srv/awsLambdaEnv
         pip install pipenv 
         pipenv install
+        pipenv shell
         pip install pylint  mypy
 
     - name: Lint with pylint
