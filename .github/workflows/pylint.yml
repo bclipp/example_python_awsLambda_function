@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: docker.pkg.github.com/bclipp/example_docker_lambda/image:latest
+    container: bclipp770/aws_lambda_builder:latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
