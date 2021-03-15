@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: bclipp770/aws_lambda_builder:latest
+    container: bclipp770/aws_lambda_builder:main
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
