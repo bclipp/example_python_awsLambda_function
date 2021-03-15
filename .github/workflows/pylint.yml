@@ -15,6 +15,9 @@ jobs:
 
     - name: Install dependencies
       run: |
+        export PATH="/root/.pyenv/bin:$PATH" 
+        eval "$(pyenv init -)" 
+        eval "$(pyenv virtualenv-init -)"
         pyenv virtualenv 3.9.2 awsLambdaEnv
         pipenv install pylint  mypy
 
@@ -31,9 +34,6 @@ jobs:
     - name: Build Zip & deploy Zip
       run: |
         cd  /srv/awsLambdaEnv
-        export PATH="/root/.pyenv/bin:$PATH" 
-        eval "$(pyenv init -)" 
-        eval "$(pyenv virtualenv-init -)"
         pyenv activate awsLambdaEnv
         mkdir lambda_deployment
         cp -r __init__.py lambda_function.py  lambda_deployment
