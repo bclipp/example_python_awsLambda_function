@@ -20,6 +20,7 @@ jobs:
         eval "$(pyenv virtualenv-init -)"
         pyenv install 3.9.2
         pyenv virtualenv 3.9.2 awsLambdaEnv
+        pyenv activate awsLambdaEnv
         pip install pipenv 
         pipenv install pylint  mypy
 
