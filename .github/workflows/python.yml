@@ -8,18 +8,19 @@ jobs:
     container: bclipp770/aws_lambda_builder:latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
+    - run: |
+          sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
+              libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+              xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+      # https://github.com/pyenv/pyenv#installation
     - run: pwd
     - env:
           PYENV_ROOT: /home/runner/work/pyenv/pyenv
-    - run: |
+      run: |
           echo $PYENV_ROOT
           echo "$PYENV_ROOT/shims:$PYENV_ROOT/bin" >> $GITHUB_PATH
-          bin/pyenv install 3.9.2
-          bin/pyenv global 3.9.2
+          bin/pyenv install ${{ matrix.python-version }}
+          bin/pyenv global ${{ matrix.python-version }}
           bin/pyenv rehash
     - run: python --version
 
