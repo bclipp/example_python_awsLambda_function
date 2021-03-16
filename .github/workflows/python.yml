@@ -33,7 +33,7 @@ jobs:
           pyenv activate awsLambdaEnv
           pip install pylint mypy
           pylint .
-          mypy .
+          # mypy .
           mkdir lambda_deployment
           cp -r __init__.py lambda_function.py  lambda_deployment
           cd lambda_deployment
