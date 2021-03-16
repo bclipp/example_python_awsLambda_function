@@ -18,7 +18,7 @@ jobs:
       - env:
           PYENV_ROOT: /home/runner/work/pyenv/pyenv
         run: |
-          yum install which
+          yum install -y which
           echo $PYENV_ROOT
           echo "$PYENV_ROOT/shims:$PYENV_ROOT/bin" >> $GITHUB_PATH
           export PATH="/root/.pyenv/bin:$PATH" 
