@@ -19,7 +19,8 @@ jobs:
           PYENV_ROOT: /home/runner/work/pyenv/pyenv
         run: |
           echo $PYENV_ROOT
-          echo "$PYENV_ROOT/shims:$PYENV_ROOT/bin" >> $GITHUB_PATH
+          # echo "$PYENV_ROOT/shims:$PYENV_ROOT/bin" >> $GITHUB_PATH
+          export PATH="/root/.pyenv/bin:$PATH" 
           eval "$(pyenv init -)" 
           eval "$(pyenv virtualenv-init -)"
           pyenv install 3.9.2
