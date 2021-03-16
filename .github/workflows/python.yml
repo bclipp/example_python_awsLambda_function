@@ -1,5 +1,3 @@
-name: ubuntu_tests
-on: [pul 
 name: Python
 
 on: [push]
