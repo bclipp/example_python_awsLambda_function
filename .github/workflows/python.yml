@@ -1,48 +1,36 @@
-name: Python
-
-on: [push]
-
+name: ubuntu_tests
+on: [pull_request, push]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    container: bclipp770/aws_lambda_builder:latest
+  ubuntu_tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [2.7.18, 3.5.10, 3.6.13, 3.7.10, 3.8.8, 3.9.2]  # 2.7.6, 3.4.10, 
+    runs-on: Ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
-    - run: pwd
-    - env:
+      - uses: actions/checkout@v2
+      # Normally, we would use the superbly maintained...
+      # - uses: actions/setup-python@v2
+      #   with:
+      #    python-version: ${{ matrix.python-version }}
+      # ... but in the repo, we want to test pyenv builds on Ubuntu
+      - run: |
+          sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
+              libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+              xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+      # https://github.com/pyenv/pyenv#installation
+      - run: pwd
+      - env:
           PYENV_ROOT: /home/runner/work/pyenv/pyenv
-      run: |
+        run: |
           echo $PYENV_ROOT
           echo "$PYENV_ROOT/shims:$PYENV_ROOT/bin" >> $GITHUB_PATH
           bin/pyenv install ${{ matrix.python-version }}
           bin/pyenv global ${{ matrix.python-version }}
           bin/pyenv rehash
-    - run: python --version
-
-    - name: Install dependencies
-      run: |
-        pip3 install pylint  mypy
-
-    - name: Lint with pylint
-      run: |
-        pylint .
-
-    - name: Lint with mypy
-      run: |
-        # stop the build if pylint is 10 for everything
-        mypy .
-
-    - name: Build Zip & deploy Zip
-      run: |
-        mkdir lambda_deployment
-        cp -r __init__.py lambda_function.py  lambda_deployment
-        cd lambda_deployment
-        pip3 install -t ./package -r pandas
-        cd package
-        zip -r9 ../../lambda_function.zip .
-        cd ..
-        rm -rf package/
-        zip -gr ../lambda_function.zip *
-
-    
-
+      - run: python --version
+      - run: python -m pip --version
+      - shell: python  # Prove that actual Python == expected Python
+        env:
+          EXPECTED_PYTHON: ${{ matrix.python-version }}
+        run: import os, sys ; assert sys.version.startswith(os.getenv("EXPECTED_PYTHON"))
