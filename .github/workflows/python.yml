@@ -22,10 +22,7 @@ jobs:
         pyenv virtualenv 3.9.2 awsLambdaEnv
         pyenv activate awsLambdaEnv
         cd  /srv/awsLambdaEnv
-        pip install pipenv 
-        pipenv install
-        pipenv shell
-        pip install pylint  mypy
+        pip3 install pylint  mypy
 
     - name: Lint with pylint
       run: |
