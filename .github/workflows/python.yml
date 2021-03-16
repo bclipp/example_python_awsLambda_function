@@ -37,7 +37,7 @@ jobs:
           mkdir lambda_deployment
           cp -r __init__.py lambda_function.py  lambda_deployment
           cd lambda_deployment
-          pip3 install -t ./package -r pandas
+          pip3 install -t ./package  pandas
           cd package
           zip -r9 ../../lambda_function.zip .
           cd ..
