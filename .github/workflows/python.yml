@@ -33,10 +33,10 @@ jobs:
           pyenv activate awsLambdaEnv
           
       - run: |
-          /home/runner/work/pyenv/pyenv activate awsLambdaEnv
+          /root/.pyenv/bin/pyenv activate awsLambdaEnv
           python3 --version
       - run: |
-          pyenv activate awsLambdaEnv
+          /root/.pyenv/bin/pyenv activate awsLambdaEnv
           python3 -m pip --version
       - shell: python  # Prove that actual Python == expected Python
         env:
