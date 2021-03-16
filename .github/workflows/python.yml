@@ -31,17 +31,16 @@ jobs:
           pyenv rehash
           pyenv virtualenv 3.9.2 awsLambdaEnv
           pyenv activate awsLambdaEnv
+          pip install pylint mypy
+          pylint .
+          mypy .
+          mkdir lambda_deployment
+          cp -r __init__.py lambda_function.py  lambda_deployment
+          cd lambda_deployment
+          pip3 install -t ./package -r pandas
+          cd package
+          zip -r9 ../../lambda_function.zip .
+          cd ..
+          rm -rf package/
+          zip -gr ../lambda_function.zip *
           
-      - run: |
-          export PATH="/root/.pyenv/bin:$PATH" 
-          eval "$(pyenv init -)" 
-          eval "$(pyenv virtualenv-init -)"
-          /root/.pyenv/bin/pyenv activate awsLambdaEnv
-          python3 --version
-      - run: |
-          /root/.pyenv/bin/pyenv activate awsLambdaEnv
-          python3 -m pip --version
-      - shell: python  # Prove that actual Python == expected Python
-        env:
-          EXPECTED_PYTHON: ${{ matrix.python-version }}
-        run: import os, sys ; assert sys.version.startswith(os.getenv("EXPECTED_PYTHON"))
