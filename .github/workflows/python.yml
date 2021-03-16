@@ -33,6 +33,9 @@ jobs:
           pyenv activate awsLambdaEnv
           
       - run: |
+          export PATH="/root/.pyenv/bin:$PATH" 
+          eval "$(pyenv init -)" 
+          eval "$(pyenv virtualenv-init -)"
           /root/.pyenv/bin/pyenv activate awsLambdaEnv
           python3 --version
       - run: |
